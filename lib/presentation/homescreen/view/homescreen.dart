@@ -1,0 +1,79 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+import 'package:flutter/material.dart';
+import 'package:newfakstore/presentation/detailedscreen/view/detailedscreen.dart';
+import 'package:newfakstore/presentation/homescreen/controller/homescreencontroller.dart';
+import 'package:newfakstore/presentation/homescreen/widgets/shopcontainer.dart';
+import 'package:provider/provider.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    await Provider.of<HomeScreenController>(context, listen: false).fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final homescreenProvider = Provider.of<HomeScreenController>(context);
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text("Shop Head"),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 15,
+                mainAxisExtent: 300,
+                crossAxisSpacing: 15,
+                crossAxisCount: 2),
+            itemCount: homescreenProvider.productlist.length,
+            itemBuilder: (context, index) => InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailedScreen(
+                        img: homescreenProvider.productlist[index].image ?? "",
+                        title:
+                            homescreenProvider.productlist[index].title ?? "",
+                        description:
+                            homescreenProvider.productlist[index].description ??
+                                "",
+                        price:
+                            "\$${homescreenProvider.productlist[index].price ?? ""}",
+                        rating: homescreenProvider
+                                .productlist[index].rating?.rate
+                                .toString() ??
+                            "",
+                      ),
+                    ));
+              },
+              child: ShopContainer(
+                img: homescreenProvider.productlist[index].image ?? "",
+                category: homescreenProvider.productlist[index].category ?? "",
+                price: "\$${homescreenProvider.productlist[index].price ?? ""}",
+                title: homescreenProvider.productlist[index].title ?? "",
+                rating: homescreenProvider.productlist[index].rating?.rate
+                        .toString() ??
+                    "",
+              ),
+            ),
+          ),
+        ));
+  }
+}
