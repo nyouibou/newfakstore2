@@ -1,22 +1,28 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:newfakstore/presentation/cartscreen/cartscreen.dart';
+import 'package:newfakstore/presentation/homescreen/controller/homescreencontroller.dart'; // Import HomeScreenController
 
-class DetailedScreen extends StatelessWidget {
-  const DetailedScreen(
-      {super.key,
-      required this.img,
-      required this.title,
-      required this.description,
-      required this.price,
-      required this.rating});
+class DetailedScreen extends StatefulWidget {
+  const DetailedScreen({
+    Key? key,
+    required this.img,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.rating,
+  }) : super(key: key);
+
   final String img;
   final String title;
   final String description;
   final String price;
   final String rating;
 
+  @override
+  State<DetailedScreen> createState() => _DetailedScreenState();
+}
+
+class _DetailedScreenState extends State<DetailedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,18 +34,26 @@ class DetailedScreen extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
         ),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.shopping_bag,
-                color: Colors.black,
-              ))
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Cartscreen(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.shopping_bag,
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -51,16 +65,19 @@ class DetailedScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [Icon(Icons.favorite_border)],
+                    children: const [Icon(Icons.favorite_border)],
                   ),
                 ),
                 Container(
                   height: 400,
                   width: 400,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      image: DecorationImage(image: NetworkImage(img))),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: NetworkImage(widget.img),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -70,36 +87,42 @@ class DetailedScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     maxLines: 2,
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        price,
-                        style: TextStyle(fontFamily: 'Poppins', fontSize: 25),
+                        widget.price,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 25,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
                             Text(
-                              rating,
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 25),
+                              widget.rating,
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 25,
+                              ),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                   Padding(
@@ -109,19 +132,21 @@ class DetailedScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Description",
                             style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
-                            description,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                color: Colors.grey),
+                            widget.description,
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -132,22 +157,33 @@ class DetailedScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                // Call the addData method from HomeScreenController
+                HomeScreenController().addData(
+                  title: widget.title,
+                  description: widget.description,
+                  price: widget.price,
+                  rating: widget.rating,
+                  img: widget.img,
+                );
+                // Navigate to the cart screen or perform any other action
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Cartscreen(),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cartscreen(),
+                  ),
+                );
               },
               child: Container(
                 width: 130,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.black),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.add,
                         color: Colors.white,
@@ -155,16 +191,17 @@ class DetailedScreen extends StatelessWidget {
                       Text(
                         "Add to Cart",
                         style: TextStyle(
-                            fontFamily: 'popins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontFamily: 'popins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

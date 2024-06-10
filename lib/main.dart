@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:newfakstore/presentation/homescreen/controller/homescreencontroller.dart';
 import 'package:newfakstore/presentation/homescreen/view/homescreen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  var box = await Hive.openBox('products');
   runApp(const MyApp());
 }
 

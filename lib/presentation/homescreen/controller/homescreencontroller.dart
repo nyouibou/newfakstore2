@@ -1,9 +1,41 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:newfakstore/model/modelapi.dart';
 
 class HomeScreenController with ChangeNotifier {
+  static List productList = [];
+
+  static List productKeys = [];
+  // // HIVE step 4
+  var myBox = Hive.box("products");
+  //function to add data
+  void addData({
+    required String title,
+    required String img,
+    required String description,
+    required String price,
+    required String rating,
+  }) {
+    myBox.add({
+      "title": title,
+      "img": img,
+      "description": description,
+      "price": price,
+      "rating": rating,
+    });
+    notifyListeners();
+  }
+
+  // function to delete data
+
+  void deleteData(int index) {
+    myBox.deleteAt(index);
+    productKeys = myBox.keys.toList();
+    notifyListeners();
+  }
+
   List<SampleApiModel> productlist = [];
   fetchData() async {
     var url = Uri.parse("https://fakestoreapi.com/products");
