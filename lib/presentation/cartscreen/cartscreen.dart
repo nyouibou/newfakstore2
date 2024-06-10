@@ -142,8 +142,7 @@ class _CartscreenState extends State<Cartscreen> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(product['img'] ??
-                          ""), // Adjust this to match your data structure
+                      image: NetworkImage(product['img'] ?? ""),
                     ),
                     color: Colors.red,
                     borderRadius: BorderRadius.circular(10),
@@ -157,8 +156,7 @@ class _CartscreenState extends State<Cartscreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product['title'] ??
-                            "", // Adjust this to match your data structure
+                        product['title'] ?? "",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -170,7 +168,7 @@ class _CartscreenState extends State<Cartscreen> {
                         height: 20,
                       ),
                       Text(
-                        "\$${product['price'] ?? ""}", // Adjust this to match your data structure
+                        "\$${product['price'] ?? ""}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
