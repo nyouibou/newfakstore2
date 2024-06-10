@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:newfakstore/presentation/cartscreen/cartscreen.dart';
 import 'package:newfakstore/presentation/detailedscreen/view/detailedscreen.dart';
 import 'package:newfakstore/presentation/homescreen/controller/homescreencontroller.dart';
 import 'package:newfakstore/presentation/homescreen/widgets/shopcontainer.dart';
@@ -32,6 +33,22 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           title: Text("Shop Head"),
           centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cartscreen(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.shopping_bag,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),

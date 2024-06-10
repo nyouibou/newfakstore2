@@ -94,6 +94,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:newfakstore/presentation/homescreen/controller/homescreencontroller.dart';
+import 'package:newfakstore/presentation/homescreen/view/homescreen.dart';
 import 'package:provider/provider.dart';
 
 class Cartscreen extends StatefulWidget {
@@ -110,6 +111,20 @@ class _CartscreenState extends State<Cartscreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cart"),
+        leading: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: homescreenProvider.myBox.length,
