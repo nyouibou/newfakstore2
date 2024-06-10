@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:newfakstore/presentation/cartscreen/cartscreen.dart';
 import 'package:newfakstore/presentation/homescreen/controller/homescreencontroller.dart'; // Import HomeScreenController
